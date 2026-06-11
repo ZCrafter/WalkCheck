@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>WalkCheck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-inner">
+      <div class="loading-icon">🚶</div>
+      <div class="loading-text">WalkCheck</div>
+      <div class="loading-sub" id="loading-sub">Getting your forecast...</div>
+      <div class="loading-bar"><div class="loading-progress"></div></div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="app" class="app hidden">
+
+    <!-- VERDICT HEADER -->
+    <header id="verdict-header" class="verdict-header">
+      <div class="verdict-left">
+        <div class="verdict-badge" id="verdict-badge"><span id="verdict-icon">✓</span></div>
+        <div class="verdict-text">
+          <div class="verdict-label" id="verdict-label">GO</div>
+          <div class="verdict-sublabel" id="verdict-sublabel">Conditions are good for your walk</div>
+        </div>
+      </div>
+      <div class="verdict-right">
+        <div class="header-meta">
+          <div class="location-name" id="location-name">Locating...</div>
+          <div class="last-updated" id="last-updated">—</div>
+        </div>
+        <button class="icon-btn" id="refresh-btn" title="Refresh">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+        </button>
+        <button class="icon-btn" id="settings-btn" title="Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-grid">
+
+      <!-- LEFT PANEL -->
+      <section class="left-panel">
+
+        <div class="card conditions-card">
+          <div class="card-eyebrow">Right Now</div>
+          <div class="conditions-main">
+            <div class="temp-display">
+              <span class="temp-big" id="current-temp">--</span>
+              <span class="temp-unit" id="temp-unit-display">°F</span>
+            </div>
+            <div class="conditions-details">
+              <div class="condition-row">
+                <span class="cond-icon">🌡️</span>
+                <span class="cond-label">Feels like</span>
+                <span class="cond-value" id="feels-like">--°F</span>
+              </div>
+              <div class="condition-row">
+                <span class="cond-icon">💧</span>
+                <span class="cond-label">Precip chance</span>
+                <span class="cond-value" id="precip-chance">--%</span>
+              </div>
+              <div class="condition-row">
+                <span class="cond-icon">💨</span>
+                <span class="cond-label">Wind</span>
+                <span class="cond-value" id="wind-speed">-- mph</span>
+              </div>
+              <div class="condition-row">
+                <span class="cond-icon">💦</span>
+                <span class="cond-label">Humidity</span>
+                <span class="cond-value" id="humidity">--%</span>
+              </div>
+              <div class="condition-row">
+                <span class="cond-icon">☁️</span>
+                <span class="cond-label">Sky</span>
+                <span class="cond-value" id="sky-condition">--</span>
+              </div>
+            </div>
+          </div>
+          <!-- Source dots — tap 5x for debug panel -->
+          <div class="source-confidence" id="source-confidence-row">
+            <div class="source-dots" id="source-dots"></div>
+            <span class="source-label" id="source-label">Checking sources...</span>
+          </div>
+        </div>
+
+        <div class="card gear-card">
+          <div class="card-eyebrow">What to Wear</div>
+          <div class="gear-list" id="gear-list">
+            <div class="gear-item loading-placeholder">Getting forecast...</div>
+          </div>
+        </div>
+
+        <div class="card walk-window-card">
+          <div class="card-eyebrow">Today's Walks</div>
+          <div class="walk-windows" id="walk-windows">
+            <div class="no-schedule">No schedules set — add them in Settings</div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT PANEL -->
+      <section class="right-panel">
+        <div class="card hourly-card">
+          <div class="hourly-header">
+            <div class="card-eyebrow">Next 12 Hours</div>
+            <div class="hourly-legend">
+              <span class="legend-dot go"></span><span class="legend-txt">Go</span>
+              <span class="legend-dot warn"></span><span class="legend-txt">Marginal</span>
+              <span class="legend-dot nogo"></span><span class="legend-txt">No Go</span>
+            </div>
+          </div>
+          <div class="hourly-scroll" id="hourly-scroll"></div>
+          <div class="daily-summary" id="daily-summary"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- DEBUG PANEL -->
+  <div id="debug-overlay" class="debug-overlay hidden"></div>
+  <div id="debug-panel" class="debug-panel hidden">
+    <div class="debug-header">
+      <span class="debug-title">🔍 Source Debug</span>
+      <button class="icon-btn" id="debug-close">✕</button>
+    </div>
+    <div id="debug-body" class="debug-body">Loading...</div>
+  </div>
+
+  <!-- SETTINGS DRAWER -->
+  <div id="settings-overlay" class="settings-overlay hidden"></div>
+  <aside id="settings-drawer" class="settings-drawer hidden">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <h2 class="drawer-title">Settings</h2>
+      <button class="icon-btn close-btn" id="settings-close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+
+      <div class="settings-section">
+        <div class="settings-section-title">Units</div>
+        <div class="setting-row">
+          <div class="setting-info"><div class="setting-label">Temperature &amp; Speed</div></div>
+          <div class="toggle-group" id="units-toggle">
+            <button class="toggle-btn active" data-val="imperial">Imperial</button>
+            <button class="toggle-btn" data-val="metric">Metric</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Go / No-Go Thresholds <span class="threshold-note">(based on Feels Like)</span></div>
+        <div class="setting-row">
+          <div class="setting-info"><div class="setting-label">Too Cold Below</div></div>
+          <div class="range-input-group">
+            <input type="range" id="temp-min-slider" min="-20" max="60" value="32" step="1">
+            <span class="range-val" id="temp-min-display">32°F</span>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info"><div class="setting-label">Too Hot Above</div></div>
+          <div class="range-input-group">
+            <input type="range" id="temp-max-slider" min="60" max="120" value="95" step="1">
+            <span class="range-val" id="temp-max-display">95°F</span>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info"><div class="setting-label">Precip No-Go Above</div></div>
+          <div class="range-input-group">
+            <input type="range" id="precip-slider" min="10" max="90" value="40" step="5">
+            <span class="range-val" id="precip-display">40%</span>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info"><div class="setting-label">Wind No-Go Above</div></div>
+          <div class="range-input-group">
+            <input type="range" id="wind-slider" min="5" max="50" value="25" step="1">
+            <span class="range-val" id="wind-display">25 mph</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Clothing Temperatures <span class="threshold-note">(Feels Like)</span></div>
+        <div class="clothing-note">Drag thresholds to set where each outfit tier kicks in. Top and bottom layers are independent.</div>
+
+        <div class="setting-row" style="margin-top:12px">
+          <div class="setting-info"><div class="setting-label">🧥 Heavy Coat → Jacket</div></div>
+          <div class="range-input-group">
+            <input type="range" id="top-t1-slider" min="0" max="70" value="45" step="1">
+            <span class="range-val" id="top-t1-display">45°F</span>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info"><div class="setting-label">🧥 Jacket → Light Layer</div></div>
+          <div class="range-input-group">
+            <input type="range" id="top-t2-slider" min="30" max="85" value="60" step="1">
+            <span class="range-val" id="top-t2-display">60°F</span>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info"><div class="setting-label">👕 Light Layer → T-Shirt</div></div>
+          <div class="range-input-group">
+            <input type="range" id="top-t3-slider" min="50" max="95" value="72" step="1">
+            <span class="range-val" id="top-t3-display">72°F</span>
+          </div>
+        </div>
+
+        <div class="clothing-divider"></div>
+
+        <div class="setting-row">
+          <div class="setting-info"><div class="setting-label">🩱 Sweatpants → Joggers</div></div>
+          <div class="range-input-group">
+            <input type="range" id="bot-t1-slider" min="0" max="70" value="40" step="1">
+            <span class="range-val" id="bot-t1-display">40°F</span>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info"><div class="setting-label">👖 Joggers → Shorts</div></div>
+          <div class="range-input-group">
+            <input type="range" id="bot-t2-slider" min="30" max="90" value="65" step="1">
+            <span class="range-val" id="bot-t2-display">65°F</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Safety Reminders</div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Sunscreen reminder</div>
+            <div class="setting-sub">Between 10am–4pm</div>
+          </div>
+          <label class="toggle-switch"><input type="checkbox" id="sunscreen-toggle" checked><span class="toggle-track"></span></label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Sunglasses reminder</div>
+            <div class="setting-sub">Sunny days during daylight</div>
+          </div>
+          <label class="toggle-switch"><input type="checkbox" id="sunglasses-toggle" checked><span class="toggle-track"></span></label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Bright clothing at night</div>
+            <div class="setting-sub">After sunset or before sunrise</div>
+          </div>
+          <label class="toggle-switch"><input type="checkbox" id="bright-clothing-toggle" checked><span class="toggle-track"></span></label>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">API Keys <span class="threshold-note">(optional)</span></div>
+        <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:6px">
+          <div class="setting-label">OpenWeatherMap API Key</div>
+          <div class="setting-sub">Free at openweathermap.org — adds a 4th source</div>
+          <input type="text" id="owm-key-input" class="form-input" placeholder="Paste your free API key here" style="width:100%;margin-top:4px">
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Walk Schedules</div>
+        <div class="setting-sub" style="margin-bottom:12px">Each schedule has its own duration for accurate walk-window evaluation.</div>
+        <div id="schedules-list" class="schedules-list"></div>
+        <button class="add-schedule-btn" id="add-schedule-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Walk Schedule
+        </button>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- SCHEDULE MODAL -->
+  <div id="schedule-modal-overlay" class="modal-overlay hidden"></div>
+  <div id="schedule-modal" class="modal hidden">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">Add Walk Schedule</h3>
+      <button class="icon-btn" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Walk Time</label>
+          <input type="time" id="schedule-time" class="form-input" value="07:00">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Duration</label>
+          <div class="stepper" id="modal-duration-stepper">
+            <button class="step-btn" data-action="dec">−</button>
+            <span class="step-val" id="modal-duration-display">30 min</span>
+            <button class="step-btn" data-action="inc">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Days</label>
+        <div class="day-picker" id="day-picker">
+          <button class="day-btn active" data-day="1">M</button>
+          <button class="day-btn active" data-day="2">T</button>
+          <button class="day-btn active" data-day="3">W</button>
+          <button class="day-btn active" data-day="4">T</button>
+          <button class="day-btn active" data-day="5">F</button>
+          <button class="day-btn" data-day="6">S</button>
+          <button class="day-btn" data-day="0">S</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Label (optional)</label>
+        <input type="text" id="schedule-label" class="form-input" placeholder="Morning walk">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="modal-cancel">Cancel</button>
+      <button class="btn-primary" id="modal-save">Save Schedule</button>
+    </div>
+  </div>
+
+  <!-- ERROR TOAST -->
+  <div id="error-toast" class="error-toast hidden">
+    <span id="error-msg">Something went wrong</span>
+    <button id="error-dismiss">×</button>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
